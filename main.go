@@ -25,7 +25,7 @@ func init() {
 }
 
 func main() {
-	gin.SetMode("release")
+	//gin.SetMode("release")
 	//基础路由
 	baseRouter := gin.New()
 	routers.RegisterRouter(baseRouter)

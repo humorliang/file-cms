@@ -5,6 +5,7 @@ import (
 	"github.com/humorliang/file-cms/controllers/user"
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-contrib/sessions/cookie"
+	"github.com/humorliang/file-cms/controllers/file"
 )
 
 func RegisterRouter(r *gin.Engine) {
@@ -20,6 +21,6 @@ func RegisterRouter(r *gin.Engine) {
 	rV1.POST("/user/register", user.Register)
 
 	//需要认证
-	//rAuth := rV1.Group("/auth", middleware.SessionAuth())
-
+	rAuth := rV1.Group("/auth")
+	rAuth.POST("/file/upload",file.UplodeFile)
 }

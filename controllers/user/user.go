@@ -11,7 +11,7 @@ func Login(c *gin.Context) {
 	//获取会话
 	session := sessions.Default(c)
 
-	session.Set("user", "123")
+	session.Set("user_id", "1")
 	session.Save()
 	c.JSON(200, rsp.Success("登陆成功"))
 }
