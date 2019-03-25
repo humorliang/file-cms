@@ -38,7 +38,7 @@ pass_word:123456
 }
 ```
 #### 上传文件
-url:http://localhost:8080/v1/file/upload
+url:http://localhost:8080/v1/auth/file/upload
 method:post
 - 请求参数：
 ```
@@ -56,7 +56,7 @@ file_data:xxxx
 }
 ```
 #### 下载文件
-url:http://localhost:8080/v1/file/download/:file_id
+url:http://localhost:8080/v1/auth/file/download/:file_id
 method:get
 - 请求参数：
 ```
@@ -70,7 +70,7 @@ method:get
 }
 ```
 #### 获取文件列表
-url:http://localhost:8080/v1/files/:page_num
+url:http://localhost:8080/v1/auth/files/:page_num
 method:get
 - 请求参数：
 ```
