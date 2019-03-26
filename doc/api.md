@@ -56,7 +56,7 @@ file_data:xxxx
 }
 ```
 #### 下载文件
-url:http://localhost:8080/v1/auth/file/download/:file_id
+url:http://localhost:8080/v1/auth/file/download?id=1
 method:get
 - 请求参数：
 ```
