@@ -6,6 +6,7 @@ import (
 	"time"
 	"fmt"
 	"github.com/humorliang/file-cms/routers"
+	"github.com/humorliang/file-cms/comm/g"
 )
 
 const (
@@ -18,9 +19,11 @@ const (
 func init() {
 	fmt.Printf(`
 	************** server is  run **************
-	**** server addr : %s ***
+	**** server addr : %s **********
 	********************************************
 	`, serverAddr)
+	//初始化操作
+	g.InitDB()
 
 }
 
