@@ -62,13 +62,7 @@ method:get
 ```
 ```
 - 响应
-```json
-{
-    code:0,
-    msg:"success",
-    data:{}
-}
-```
+文件下载
 #### 获取文件列表
 url:http://localhost:8080/v1/auth/files/:page_num
 method:get
