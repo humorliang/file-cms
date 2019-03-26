@@ -16,7 +16,15 @@ func NewStrToSHA256(msg string) string {
 	h.Write([]byte(msg))
 	data := h.Sum(nil)
 	//使用指针转化提高效率
-	return fmt.Sprintf("%x",*(*string)(unsafe.Pointer(&data)))
+	return fmt.Sprintf("%x", *(*string)(unsafe.Pointer(&data)))
+}
+
+func SHA256Hash(data []byte) string {
+	h := sha256.New()
+	h.Write(data)
+	hData := h.Sum(nil)
+	//使用指针转化提高效率
+	return fmt.Sprintf("%x", *(*string)(unsafe.Pointer(&hData)))
 }
 
 //数据加密
