@@ -1,11 +1,10 @@
 package e
 
-var msg = map[int]string{
-
-
-}
-
-
+//获取异常信息
 func GetMsg(msgCode int) string {
-	return ""
+	m, ok := msg[msgCode]
+	if ok {
+		return m
+	}
+	return msg[INTERSERVER_ERROR]
 }
