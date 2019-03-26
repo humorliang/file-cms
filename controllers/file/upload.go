@@ -6,6 +6,8 @@ import (
 	"github.com/humorliang/file-cms/comm/e"
 	"fmt"
 	"github.com/humorliang/file-cms/db"
+	"github.com/humorliang/file-cms/utils"
+	"github.com/humorliang/file-cms/comm/g"
 )
 
 //上传文件
@@ -28,7 +30,8 @@ func UplodeFile(c *gin.Context) {
 		c.JSON(500, rsp.Fails(e.INTERSERVER_ERROR, e.GetMsg(e.INTERSERVER_ERROR)))
 		return
 	}
-	res, err := db.AddFile(name.Filename, buf)
+	bufEncrypt, err := utils.RsaEncrypt(buf, g.RsaKey)
+	res, err := db.AddFile(name.Filename, bufEncrypt)
 	if err != nil {
 		c.JSON(500, rsp.Fails(e.INTERSERVER_ERROR, e.GetMsg(e.INTERSERVER_ERROR)))
 		return
@@ -36,8 +39,7 @@ func UplodeFile(c *gin.Context) {
 		c.JSON(201, rsp.Success(gin.H{
 			"file_id":   res.FileId,
 			"file_name": name.Filename,
+			"file_hash": utils.SHA256Hash(buf),
 		}))
 	}
 }
-
-
