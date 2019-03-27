@@ -26,14 +26,14 @@ func DownloadFile(c *gin.Context) {
 		c.JSON(500, rsp.Fails(e.INTERSERVER_ERROR, e.GetMsg(e.INTERSERVER_ERROR)))
 		return
 	}
-	fData, err := utils.RsaEncrypt(file.FileData, g.RsaKey)
+	fData, err := utils.RsaDecrypt(file.FileData, g.RsaKey)
 	c.Header("Content-Disposition", "attachment; filename="+url.QueryEscape(file.FileName))
 	c.Header("Content-Description", "File Transfer")
 	c.Header("Content-Type", "application/octet-stream")
 	c.Header("Content-Transfer-Encoding", "binary")
 	c.Header("Expires", "0")
 	c.Header("Cache-Control", "must-revalidate")
-	c.Header("File-Hash", utils.SHA256Hash(fData))
+	c.Header("Signature", utils.SHA256Hash(fData))
 	c.Header("Pragma", "public")
 	c.Data(200, "application/octet-stream", fData)
 }
