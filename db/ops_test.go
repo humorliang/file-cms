@@ -27,6 +27,6 @@ func TestGetFile(t *testing.T) {
 
 func TestGetFiles(t *testing.T) {
 	g.InitDB()
-	f, err := GetFiles()
+	f, err := GetFiles(1)
 	fmt.Println(f, err)
 }
