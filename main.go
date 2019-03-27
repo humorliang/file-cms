@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"github.com/humorliang/file-cms/routers"
 	"github.com/humorliang/file-cms/comm/g"
+	"github.com/humorliang/file-cms/comm/setting"
 )
 
 const (
@@ -22,6 +23,7 @@ func init() {
 	**** server addr : %s **********
 	********************************************
 	`, serverAddr)
+	fmt.Println(*setting.AppCfg)
 	//初始化操作
 	g.InitDB()
 

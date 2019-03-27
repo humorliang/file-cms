@@ -39,6 +39,12 @@
 			"revisionTime": "2019-03-21T07:12:06Z"
 		},
 		{
+			"checksumSHA1": "fnAglmxr1VkIe3zSrK66uiNrYDY=",
+			"path": "github.com/go-ini/ini",
+			"revision": "3be5ad479f69d4e08d7fe25edf79bf3346bd658e",
+			"revisionTime": "2019-03-27T02:48:45Z"
+		},
+		{
 			"checksumSHA1": "Wp97rIwFg54dNwuCeR9Vslaehtw=",
 			"path": "github.com/golang/protobuf/proto",
 			"revision": "d3c38a4eb4970272b87a425ae00ccc4548e2f9bb",
