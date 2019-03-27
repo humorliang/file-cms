@@ -11,14 +11,14 @@ import (
 
 func init() {
 	helpInfo := `
-	********************************
+	**************************************************
 	******* 文件管理系统手册 **********
 	******* 1. 用户登陆	-login     "username,password" 
 	******* 2. 用户注册	-register  "username,password"
 	******* 3. 上传文件	-upload    "fileAbsPath"	
 	******* 4. 文件列表	-files     "pageNum"
 	******* 5. 文件下载	-download  "文件ID"
-	********************************
+	**************************************************
 `
 	fmt.Println(helpInfo)
 }
@@ -65,7 +65,7 @@ func main() {
 	}
 
 	//上传
-	if *uploadFilePath!="" {
+	if *uploadFilePath != "" {
 		code, data, err := file.UploadFile(*uploadFilePath)
 		if err != nil {
 			fmt.Println("upload file error:", err)
@@ -74,6 +74,23 @@ func main() {
 		fmt.Println("上传成功：\n", code, data)
 	}
 
-	fmt.Println(loginInfo, registerInfo, *uploadFilePath, *files, *download)
+	//下载
+	if *download != "" {
+		code, data, err := file.DownLoadFile(*uploadFilePath)
+		if err != nil {
+			fmt.Println("download file error:", err)
+			os.Exit(1)
+		}
+		fmt.Println("下载成功：\n", code, data)
+	}
 
+	//文件列表
+	if *files != "" {
+		code, data, err := file.FileList(*uploadFilePath)
+		if err != nil {
+			fmt.Println("show file list error:", err)
+			os.Exit(1)
+		}
+		fmt.Println("获取成功：\n", code, data)
+	}
 }
