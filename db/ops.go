@@ -99,9 +99,10 @@ func GetFile(id int64) (*File, error) {
 }
 
 //获取文件列表
-func GetFiles() (*Files, error) {
-	sqlStatement := `SELECT file_id,file_name,file_data,create_date FROM files`
-	rows, err := g.PsgCon.Query(sqlStatement)
+func GetFiles(pageNum int) (*Files, error) {
+	offset := (pageNum - 1) * g.PageSize
+	sqlStatement := `SELECT file_id,file_name,file_data,create_date FROM files LIMIT $1 OFFSET $2`
+	rows, err := g.PsgCon.Query(sqlStatement, g.PageSize, offset)
 	defer rows.Close()
 	if err != nil {
 		return nil, err
