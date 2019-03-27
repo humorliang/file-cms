@@ -26,7 +26,7 @@ func DownloadFile(c *gin.Context) {
 		c.JSON(500, rsp.Fails(e.INTERSERVER_ERROR, e.GetMsg(e.INTERSERVER_ERROR)))
 		return
 	}
-	fData, err := utils.RsaDecrypt(file.FileData, g.RsaKey)
+	fData, err := utils.AesDecrypt(file.FileData, utils.CheckAesKey(g.AesKey))
 	c.Header("Content-Disposition", "attachment; filename="+url.QueryEscape(file.FileName))
 	c.Header("Content-Description", "File Transfer")
 	c.Header("Content-Type", "application/octet-stream")

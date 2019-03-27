@@ -30,7 +30,7 @@ func UplodeFile(c *gin.Context) {
 		c.JSON(500, rsp.Fails(e.INTERSERVER_ERROR, e.GetMsg(e.INTERSERVER_ERROR)))
 		return
 	}
-	bufEncrypt, err := utils.RsaEncrypt(buf, g.RsaKey)
+	bufEncrypt, err := utils.AesEncrypt(buf, utils.CheckAesKey(g.AesKey))
 	res, err := db.AddFile(name.Filename, bufEncrypt)
 	if err != nil {
 		c.JSON(500, rsp.Fails(e.INTERSERVER_ERROR, e.GetMsg(e.INTERSERVER_ERROR)))
