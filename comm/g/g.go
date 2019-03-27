@@ -1,3 +1,3 @@
 package g
 
-const RsaKey = "testskey"
+const AesKey = "h123h3h23n42nw"
