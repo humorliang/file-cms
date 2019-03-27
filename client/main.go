@@ -13,8 +13,8 @@ func init() {
 	helpInfo := `
 	**************************************************
 	******* 文件管理系统手册 **********
-	******* 1. 用户登陆	-login     "username,password" 
-	******* 2. 用户注册	-register  "username,password"
+	******* 1. 用户登陆	-login     "add username and password" 
+	******* 2. 用户注册	-register  "add username and password"
 	******* 3. 上传文件	-upload    "fileAbsPath"	
 	******* 4. 文件列表	-files     "pageNum"
 	******* 5. 文件下载	-download  "文件ID"
@@ -36,14 +36,14 @@ func main() {
 	uploadFilePath := flag.String("upload", "", "this is upload")
 
 	//列表
-	files := flag.String("files", "1", "this is get file list")
+	files := flag.String("files", "", "this is get file list")
 
 	//下载
-	download := flag.String("download", "1", "this is download file")
+	download := flag.String("download", "", "this is download file")
 
 	//参数解析
 	flag.Parse()
-
+	fmt.Println()
 	//登陆
 	if loginInfo != nil {
 		code, data, err := user.ReqLogin(loginInfo[0], loginInfo[1])
@@ -51,17 +51,18 @@ func main() {
 			fmt.Println("login error:", err)
 			os.Exit(1)
 		}
-		fmt.Println("登陆成功：\n", code, data)
+		fmt.Println("登陆成功：\n", code, string(data[:]))
 	}
 
 	//注册
 	if registerInfo != nil {
-		code, data, err := user.ReqRegister(registerInfo[0], loginInfo[1])
+
+		code, data, err := user.ReqRegister(registerInfo[0], registerInfo[1])
 		if err != nil {
 			fmt.Println("register error:", err)
 			os.Exit(1)
 		}
-		fmt.Println("注册成功：\n", code, data)
+		fmt.Println("注册信息：\n", code, string(data[:]))
 	}
 
 	//上传
@@ -71,26 +72,26 @@ func main() {
 			fmt.Println("upload file error:", err)
 			os.Exit(1)
 		}
-		fmt.Println("上传成功：\n", code, data)
+		fmt.Println("上传成功：\n", code, string(data[:]))
 	}
 
 	//下载
 	if *download != "" {
-		code, data, err := file.DownLoadFile(*uploadFilePath)
+		code, data, err := file.DownLoadFile(*download)
 		if err != nil {
 			fmt.Println("download file error:", err)
 			os.Exit(1)
 		}
-		fmt.Println("下载成功：\n", code, data)
+		fmt.Println("下载成功：\n", code, string(data[:]))
 	}
 
 	//文件列表
 	if *files != "" {
-		code, data, err := file.FileList(*uploadFilePath)
+		code, data, err := file.FileList(*files)
 		if err != nil {
 			fmt.Println("show file list error:", err)
 			os.Exit(1)
 		}
-		fmt.Println("获取成功：\n", code, data)
+		fmt.Println("获取成功：\n", code, string(data[:]))
 	}
 }
