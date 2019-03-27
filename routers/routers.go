@@ -6,7 +6,6 @@ import (
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-contrib/sessions/cookie"
 	"github.com/humorliang/file-cms/controllers/file"
-	"net/http"
 )
 
 func RegisterRouter(r *gin.Engine) {
@@ -15,7 +14,7 @@ func RegisterRouter(r *gin.Engine) {
 	r.Use(sessions.Sessions("session_id", store))
 	//异常恢复中间件
 	r.Use(gin.Recovery())
-	r.StaticFS("/static/", http.Dir("."))
+
 	//API版本
 	rV1 := r.Group("/v1")
 
