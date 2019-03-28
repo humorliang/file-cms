@@ -4,10 +4,10 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/humorliang/file-cms/controllers/rsp"
 	"github.com/humorliang/file-cms/comm/e"
-	"fmt"
 	"github.com/humorliang/file-cms/db"
 	"github.com/humorliang/file-cms/utils"
 	"github.com/humorliang/file-cms/comm/g"
+	"github.com/humorliang/file-cms/comm/logging"
 )
 
 //上传文件
@@ -19,7 +19,7 @@ func UplodeFile(c *gin.Context) {
 		return
 	}
 	if err != nil {
-		fmt.Println(err)
+		logging.Error(err)
 		c.JSON(500, rsp.Fails(e.INTERSERVER_ERROR, e.GetMsg(e.INTERSERVER_ERROR)))
 		return
 	}
@@ -27,6 +27,7 @@ func UplodeFile(c *gin.Context) {
 	buf := make([]byte, name.Size)
 	_, err = file.Read(buf)
 	if err != nil {
+		logging.Error(err)
 		c.JSON(500, rsp.Fails(e.INTERSERVER_ERROR, e.GetMsg(e.INTERSERVER_ERROR)))
 		return
 	}
@@ -34,6 +35,7 @@ func UplodeFile(c *gin.Context) {
 	res, err := db.AddFile(name.Filename, bufEncrypt)
 	if err != nil {
 		c.JSON(500, rsp.Fails(e.INTERSERVER_ERROR, e.GetMsg(e.INTERSERVER_ERROR)))
+		logging.Error(err)
 		return
 	} else {
 		c.JSON(201, rsp.Success(gin.H{

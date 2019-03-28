@@ -14,7 +14,6 @@ import (
 func Login(c *gin.Context) {
 	uName := c.PostForm("user_name")
 	pwd := c.PostForm("pass_word")
-	logging.Info("login")
 	if uName == "" || pwd == "" {
 		c.JSON(200, rsp.Fails(e.PARAM_PARSE, e.GetMsg(e.PARAM_PARSE)))
 		return
@@ -22,9 +21,11 @@ func Login(c *gin.Context) {
 		if u, err := db.GetUserByName(uName); u == nil {
 			if err != nil {
 				c.JSON(500, rsp.Fails(e.INTERSERVER_ERROR, e.GetMsg(e.INTERSERVER_ERROR)))
+				logging.Error(err)
 				return
 			} else {
 				c.JSON(200, rsp.Fails(e.USER_LOGIN_FAIL, e.GetMsg(e.USER_LOGIN_FAIL)))
+				logging.Info(u)
 				return
 			}
 		} else {
@@ -50,15 +51,18 @@ func Register(c *gin.Context) {
 		if u, err := db.GetUserByName(uName); u != nil {
 			if err != nil {
 				c.JSON(500, rsp.Fails(e.USER_REGISTER_FAIL, e.GetMsg(e.USER_REGISTER_FAIL)))
+				logging.Error(err)
 				return
 			} else {
 				c.JSON(200, rsp.Fails(e.USER_EXIST, e.GetMsg(e.USER_EXIST)))
+				logging.Info(u)
 				return
 			}
 		} else {
 			user := &db.User{UserName: uName, PassWord: pwd}
 			u, err := db.AddUser(user)
 			if err != nil {
+				logging.Error(err)
 				c.JSON(500, rsp.Fails(e.USER_REGISTER_FAIL, e.GetMsg(e.USER_REGISTER_FAIL)))
 			} else {
 				c.JSON(201, rsp.Success(gin.H{
