@@ -5,15 +5,7 @@ import (
 	"fmt"
 	"log"
 	_ "github.com/lib/pq"
-)
-
-const (
-	dbType     = "postgres"
-	dbHOST     = "localhost"
-	dbPORT     = 5432
-	dbUSER     = "postgres"
-	dbPASSWORD = "123456"
-	dbNAME     = "fcms"
+	"github.com/humorliang/file-cms/comm/setting"
 )
 
 var (
@@ -22,14 +14,15 @@ var (
 )
 
 func InitDB() {
+	db := *setting.DbCfg
 	dbSource := fmt.Sprintf("host=%s port=%d user=%s "+
 		"password=%s dbname=%s sslmode=disable",
-		dbHOST, dbPORT, dbUSER, dbPASSWORD, dbNAME)
-	PsgCon, err = sql.Open(dbType, dbSource)
+		db.Host, db.Port, db.User, db.Password, db.Name)
+	PsgCon, err = sql.Open(db.Type, dbSource)
 	if err != nil {
 		log.Fatal("[postgres connect open error]", err)
 	}
-	err=PsgCon.Ping()
+	err = PsgCon.Ping()
 	if err != nil {
 		log.Fatal("[postgres connect error]", err)
 	}

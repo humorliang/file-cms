@@ -23,7 +23,7 @@ type Db struct {
 	Type     string
 	User     string
 	Password string
-	port     int
+	Port     int
 	Host     string
 	Name     string
 }

@@ -7,12 +7,14 @@ import (
 	"github.com/humorliang/file-cms/db"
 	"unsafe"
 	"github.com/gin-contrib/sessions"
+	"github.com/humorliang/file-cms/comm/logging"
 )
 
 //登陆
 func Login(c *gin.Context) {
 	uName := c.PostForm("user_name")
 	pwd := c.PostForm("pass_word")
+	logging.Info("login")
 	if uName == "" || pwd == "" {
 		c.JSON(200, rsp.Fails(e.PARAM_PARSE, e.GetMsg(e.PARAM_PARSE)))
 		return

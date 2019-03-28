@@ -3,6 +3,7 @@ package utils
 import (
 	"path"
 	"os"
+	"fmt"
 )
 
 //获取文件扩展名
@@ -54,4 +55,29 @@ func CheckPermission(src string) bool {
 	_, err := os.Stat(src)
 	//异常没权限 true
 	return os.IsPermission(err)
+}
+
+//指定文件夹创建文件，不存在则创建
+func MustOpenSrc(fileName string, fileDir string) (*os.File, error) {
+	//获取当前程序runtime的路径
+	dir, err := os.Getwd()
+	if err != nil {
+		return nil, fmt.Errorf("os.GetWd error:%s", err)
+	}
+	//获取文件夹路径
+	src := dir + "/" + fileDir
+	//检验权限
+	if CheckPermission(src) {
+		return nil, fmt.Errorf("permission is denied src:%s", src)
+	}
+	//检验文件夹并创建
+	if err := IsNotExistMkDir(src); err != nil {
+		return nil, fmt.Errorf("mkdir is error:%s", err)
+	}
+	//打开文件流
+	f, err := OpenCreateAppend(src+fileName)
+	if err != nil {
+		return nil, fmt.Errorf("open file error:%s", err)
+	}
+	return f, nil
 }

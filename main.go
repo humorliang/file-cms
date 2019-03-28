@@ -1,32 +1,29 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
-	"net/http"
-	"time"
 	"fmt"
-	"github.com/humorliang/file-cms/routers"
+	"github.com/gin-gonic/gin"
 	"github.com/humorliang/file-cms/comm/g"
 	"github.com/humorliang/file-cms/comm/setting"
+	"github.com/humorliang/file-cms/routers"
+	"net/http"
+	"time"
 )
 
 const (
-	serverAddr     = "127.0.0.1:8080"
-	readTimeout    = 10
-	writeTimeout   = 20
 	maxHeaderBytes = 1 << 20
 )
 
 func init() {
 	fmt.Printf(`
-	************** server is  run **************
-	**** server addr : %s **********
+	****   server is  running     **************
+	**** server addr : %s:%s **********
 	********************************************
-	`, serverAddr)
-	fmt.Println(*setting.AppCfg)
+	`, setting.ServerCfg.HttpAddr, setting.ServerCfg.HttpPort)
 	//初始化操作
 	g.InitDB()
-
+	//设置开发模式
+	gin.SetMode(setting.ServerCfg.RunMode)
 }
 
 func main() {
@@ -37,10 +34,10 @@ func main() {
 
 	//自定义服务
 	s := &http.Server{
-		Addr:           serverAddr,
+		Addr:           setting.ServerCfg.HttpAddr + ":" + setting.ServerCfg.HttpPort,
 		Handler:        baseRouter,
-		ReadTimeout:    readTimeout * time.Second,
-		WriteTimeout:   writeTimeout * time.Second,
+		ReadTimeout:    setting.ServerCfg.ReadTimeout * time.Second,
+		WriteTimeout:   setting.ServerCfg.WriteTimeout * time.Second,
 		MaxHeaderBytes: maxHeaderBytes,
 	}
 	s.ListenAndServe()
