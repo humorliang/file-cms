@@ -36,5 +36,5 @@ func GetFileList(c *gin.Context) {
 			"create_date": v.CreateDate,
 		})
 	}
-	c.JSON(200, rspInfo)
+	c.JSON(200, rsp.Success(rspInfo))
 }
